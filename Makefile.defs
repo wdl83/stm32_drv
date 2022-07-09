@@ -1,0 +1,68 @@
+TOOLS_PREFIX=arm-none-eabi-
+
+CC=$(TOOLS_PREFIX)gcc
+AS=$(TOOLS_PREFIX)gcc
+AR=$(TOOLS_PREFIX)gcc
+LD=$(TOOLS_PREFIX)gcc
+OBJCOPY=$(TOOLS_PREFIX)objcopy
+OBJDUMP=$(TOOLS_PREFIX)objdump
+SIZE=$(TOOLS_PREFIX)size
+
+ifndef DRV
+DRV = stm32_drv
+endif
+
+ifndef OBJ_DIR
+OBJ_DIR = obj
+endif
+
+# Bluepill: STM32F103C8T6/CS32F103C8T6 #########################################
+DEVICE=STM32F103C8
+CPU=cortex-m3
+ARCH=armv7-m
+CPU_CLK=72000000 # 72MHz
+################################################################################
+
+ASMFLAGS = \
+    -march=$(ARCH) \
+    -mcpu=$(CPU) \
+    -mthumb
+
+CFLAGS = \
+    -D$(DEVICE) \
+    -DCPU_CLK_VALUE=$(CPU_CLK) \
+    -I$(DRV) \
+    -Os \
+    -Wall \
+    -Wextra \
+    -Wno-parentheses \
+    -Wno-unused-parameter \
+    -Wpacked \
+    -Wpadded \
+    -Wshadow \
+    -Wunreachable-code \
+    -fdata-sections \
+    -ffreestanding \
+    -ffunction-sections \
+    -g \
+    -march=$(ARCH) \
+    -mcpu=$(CPU) \
+    -mthumb \
+    -std=gnu99
+
+LDFLAGS = \
+    -Wl,--cref \
+    -Wl,--gc-sections \
+    -Wl,--print-memory-usage \
+    -Wl,--relax \
+    -Wl,-M=$(OBJ_DIR)/$(TARGET).map \
+    -Wl,-T $(DRV)/linker.ld \
+    -march=$(ARCH) \
+    -mcpu=$(CPU) \
+    -mthumb \
+    -nodefaultlibs \
+    -nostartfiles \
+    -nostdlib
+
+ASMSRCS = $(DRV)/irq.s
+CSRCS = $(DRV)/crt.c
