@@ -96,9 +96,9 @@
 #define USART_TX_READY_INT_ENABLE(base)        USART_CR1(base) |= M1(CR1_TXEIE)
 #define USART_TX_READY_INT_DISABLE(base)       USART_CR1(base) &= ~M1(CR1_TXEIE)
 
-#define USART_TX_COMPLETE_INT_ENABLE(base)      USART_CR2(base) |= M1(CR2_TCIE)
-#define USART_TX_COMPLETE_INT_DISABLE(base)     USART_CR2(base) &= ~M1(CR2_TCIE)
-#define USART_TX_COMPLETE_INT_ENABLED(base)    (USART_CR2(base) & M1(CR2_TCIE))
+#define USART_TX_COMPLETE_INT_ENABLE(base)      USART_CR2(base) |= M1(CR1_TCIE)
+#define USART_TX_COMPLETE_INT_DISABLE(base)     USART_CR2(base) &= ~M1(CR1_TCIE)
+#define USART_TX_COMPLETE_INT_ENABLED(base)    (USART_CR2(base) & M1(CR1_TCIE))
 
 #define USART_RX_INT_ENABLE(base)             USART_CR2(base) |= M1(CR1_RXNEIE)
 #define USART_RX_INT_DISABLE(base)            USART_CR2(base) &= ~M1(CR1_RXNEIE)
