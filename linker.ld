@@ -26,7 +26,7 @@ SECTIONS
         PROVIDE(_bss_begin = .);
         *(.bss)
         . = ALIGN(4);
-        PROVIDE(_bss_end = .);
+        PROVIDE(_bss_end = . + SIZEOF(.bss));
     } > SRAM
 }
 

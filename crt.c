@@ -1,10 +1,11 @@
-#include <stddef.h>
+#include <stdint.h>
 
-extern char *const _text_end;
-extern char *const _data_begin;
-extern const char *const _data_end;
-extern char *const _bss_begin;
-extern const char *const _bss_end;
+/* symbols defined in linker script */
+extern uintptr_t _text_end;
+extern uintptr_t _data_begin;
+extern uintptr_t _data_end;
+extern uintptr_t _bss_begin;
+extern uintptr_t _bss_end;
 
 extern void main(void);
 
@@ -13,15 +14,19 @@ void isrReset(void)
 {
     {
         // .data - non-zero initialized data
-        char *src = _text_end;
-        char *dst = _data_begin;
+        char *begin = (char *)&_data_begin;
+        const char *const end = (const char *)&_data_end;
+        const char *src = (const char *)&_text_end;
 
-        while(dst != _data_end) *(dst++) = *(src++);
+        while(begin != end) *(begin++) = *(src++);
     }
     {
         // .bss: zero initialized data
-        char *begin = _bss_begin;
-        while(begin != _bss_end) *(begin) = 0;
+        char *begin = (char *)&_bss_begin;
+        const char *const end = (const char *)&_bss_end;
+
+        while(begin != end) *(begin++) = 0;
     }
+
     main();
 }
