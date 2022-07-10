@@ -143,4 +143,7 @@
         if(8 > (pin)) {GPIO_CFG_L(base, pin & 0x7, cfn, mode);} \
         else {GPIO_CFG_H(base, ((pin) - 8) & 0xF, cfn, mode);} \
     } while(0)
+
+#define GPIO_PULL_UP(base, i)          GPIO_BSRR(base) |=(UINT32_C(0xF) & M1(i))
+#define GPIO_PULL_DOWN(base, i)        GPIO_BRR(base) |=(UINT32_C(0xF) & M1(i))
 /*----------------------------------------------------------------------------*/

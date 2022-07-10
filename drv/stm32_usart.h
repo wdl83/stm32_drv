@@ -82,8 +82,8 @@
 
 #define USART_BR(base, br)       USART_BRR(base) = ((br))
 
-#define USART_TX_READY(base)                       (USART_SR(base) & M1(SR_TXE))
-#define USART_TX_COMPLETE(base)                    (USART_SR(base) & M1(SR_TC))
+#define USART_TX_READY(base)                      (USART_SR(base) & M1(SR_TXE))
+#define USART_TX_COMPLETE(base)                   (USART_SR(base) & M1(SR_TC))
 
 #define USART_RX_READY(base)                      (USART_SR(base) & M1(SR_RXNE))
 
