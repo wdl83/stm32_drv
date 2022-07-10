@@ -64,5 +64,5 @@ LDFLAGS = \
     -nostartfiles \
     -nostdlib
 
-ASMSRCS = $(DRV)/irq.s
+ASMSRCS = $(DRV)/isr.s
 CSRCS = $(DRV)/crt.c
