@@ -9,7 +9,7 @@ extern const char *const _bss_end;
 extern void main(void);
 
 __attribute__((naked))
-void irqReset(void)
+void isrReset(void)
 {
     {
         // .data - non-zero initialized data
