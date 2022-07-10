@@ -8,7 +8,7 @@ SECTIONS
 {
     .text :
     {
-        KEEP(*(.irq_vector_table))
+        KEEP(*(.isr_vector_table))
         *(.text*)
         *(.rodata)
         . = ALIGN(4);
