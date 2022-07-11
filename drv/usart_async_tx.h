@@ -2,10 +2,14 @@
 
 #include <stdint.h>
 
+struct usart_tx_ctrl;
 typedef
-void (*usart_tx_complete_cb_t)(uintptr_t base, uintptr_t);
+struct usart_tx_ctrl usart_tx_ctrl_t;
 
-typedef struct
+typedef
+void (*usart_tx_complete_cb_t)(uintptr_t base, usart_tx_ctrl_t *);
+
+struct usart_tx_ctrl
 {
     const uint8_t *begin;
     const uint8_t *end;
@@ -16,7 +20,7 @@ typedef struct
         uint32_t irq_cntr : 16;
         uint32_t byte_cntr : 16;
     } stats;
-} usart_tx_ctrl_t;
+};
 
 void usart_async_send(uintptr_t base, usart_tx_ctrl_t *);
 void usart_tx_isr(uintptr_t base, usart_tx_ctrl_t *);
