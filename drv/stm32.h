@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-#define ASSERT(cond)
+#include "check.h"
 
 #ifdef STM32F103C8
 #include "stm32f103c8.h"

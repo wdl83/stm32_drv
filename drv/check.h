@@ -20,4 +20,6 @@
 #define STATIC_ASSERT_STRUCT_OFFSET(type, field, offset) \
     STATIC_ASSERT(STRUCT_OFFSET(type, field) == (size_t)(offset))
 
-#define ASSERT(cond)
+#define ASSERT(cond) do { if(!(cond)) panic(); } while(0)
+
+extern void panic(void);
