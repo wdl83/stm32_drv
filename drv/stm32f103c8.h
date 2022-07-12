@@ -16,6 +16,7 @@
 #define AHB_BASE                            (PERIPH_BASE + UINT32_C(0x00020000))
 
 #define NVIC_BASE                                           UINT32_C(0xE000E100)
+#define STK_BASE                                            UINT32_C(0xE000E010)
 
 #define FLASH_IF_BASE                          (AHB_BASE + UINT32_C(0x00002000))
 
