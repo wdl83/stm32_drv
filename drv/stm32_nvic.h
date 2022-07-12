@@ -7,7 +7,7 @@
 /* interrupt set-enable
  * '0' write: no effect
  * '1' write: enable interrupt */
-#define NVIC_ISER(i)           R32(NVIC_BASE, UINT32_C(0x000) + UINT32_C(4) * i)
+#define NVIC_ISER(i)         R32(NVIC_BASE, UINT32_C(0x000) + UINT32_C(4) * (i))
 /*----------------------------------------------------------------------------*/
 /* interrupt clear-enable
  * '0' write: no effect
