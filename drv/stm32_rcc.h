@@ -197,4 +197,9 @@
 #define PORTE_CLK_ENABLE()           RCC_APB2ENR |= M1(APB2ENR_IOPEEN)
 #define PORTF_CLK_ENABLE()           RCC_APB2ENR |= M1(APB2ENR_IOPFEN)
 #define PORTG_CLK_ENABLE()           RCC_APB2ENR |= M1(APB2ENR_IOPGEN)
+
+#define TIM1_CLK_ENABLE()            RCC_APB1ENR |= M1(APB2ENR_TIM1EN)
+#define TIM2_CLK_ENABLE()            RCC_APB1ENR |= M1(APB1ENR_TIM2EN)
+#define TIM3_CLK_ENABLE()            RCC_APB1ENR |= M1(APB1ENR_TIM3EN)
+#define TIM4_CLK_ENABLE()            RCC_APB1ENR |= M1(APB1ENR_TIM4EN)
 /*----------------------------------------------------------------------------*/
