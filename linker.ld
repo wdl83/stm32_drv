@@ -8,6 +8,7 @@ SECTIONS
 {
     .text :
     {
+        PROVIDE(_text_begin = .);
         KEEP(*(.isr_vector_table))
         *(.text*)
         *(.rodata)
@@ -24,10 +25,13 @@ SECTIONS
     .bss :
     {
         PROVIDE(_bss_begin = .);
-        *(.bss)
+        *(.bss*)
         . = ALIGN(4);
         PROVIDE(_bss_end = . + SIZEOF(.bss));
     } > SRAM
 }
 
+PROVIDE(_text_size = SIZEOF(.text));
+PROVIDE(_data_size = SIZEOF(.data));
+PROVIDE(_bss_size = SIZEOF(.bss));
 PROVIDE(_stack_end = 0x20005000);
