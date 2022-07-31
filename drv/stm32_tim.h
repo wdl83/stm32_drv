@@ -160,6 +160,7 @@
 /*----------------------------------------------------------------------------*/
 #define TIM_ENABLE(base)                           TIM_CR1(base) |= M1(CR1_CEN)
 #define TIM_DISABLE(base)                          TIM_CR1(base) &= ~M1(CR1_CEN)
+#define TIM_ENABLED(base)                         (TIM_CR1(base) & M1(CR1_CEN))
 #define TIM_AUTO_RELOAD_PRELOAD_ENABLE(base)       TIM_CR1(base) |= M1(CR1_ARPE)
 #define TIM_COUNT_UP(base)                         TIM_CR1(base) &= ~M1(CR1_DIR)
 #define TIM_COUNT_DOWN(base)                       TIM_CR1(base) |= M1(CR1_DIR)

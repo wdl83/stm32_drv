@@ -104,9 +104,9 @@
 #define USART_RX_INT_ENABLE(base)             USART_CR1(base) |= M1(CR1_RXNEIE)
 #define USART_RX_INT_DISABLE(base)            USART_CR1(base) &= ~M1(CR1_RXNEIE)
 #define USART_RX_INT_ENABLED(base)           (USART_CR1(base) & M1(CR1_RXNEIE))
-
-#define USART_PARITY_ENABLE(base)                USART_CR1(base) |= M1(CR1_MSE)
-#define USART_PARITY_DISABLE(base)               USART_CR1(base) &= ~M1(CR1_MSE)
+/* use 9-bit mode if parity is enabled (preserving 8-bits of data) */
+#define USART_PARITY_ENABLE(base)          USART_CR1(base) |= M2(CR1_M, CR1_PCE)
+#define USART_PARITY_DISABLE(base)         USART_CR1(base) &= ~M2(CR1_M, CR1_PCE)
 
 #define USART_PARITY_EVEN(base)                   USART_CR1(base) &= ~M1(CR1_PS)
 #define USART_PARITY_ODD(base)                    USART_CR1(base) |= M1(CR1_PS)

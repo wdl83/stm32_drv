@@ -20,7 +20,14 @@ endif
 DEVICE=STM32F103C8
 CPU=cortex-m3
 ARCH=armv7-m
-CPU_CLK=72000000 # 72MHz
+
+CPU_CLK_VAL=72000000
+APB1_CLK_VAL=$(shell echo $$(( $(CPU_CLK_VAL) / 2 )))
+APB2_CLK_VAL=$(CPU_CLK_VAL)
+
+CPU_CLK="UINT32_C($(CPU_CLK_VAL))"
+APB1_CLK="UINT32_C($(APB1_CLK_VAL))"
+APB2_CLK="UINT32_C($(APB2_CLK_VAL))"
 ################################################################################
 
 ASMFLAGS = \
@@ -30,9 +37,11 @@ ASMFLAGS = \
 
 CFLAGS = \
     -D$(DEVICE) \
-    -DCPU_CLK_VALUE=$(CPU_CLK) \
+    -DCPU_CLK=$(CPU_CLK) \
+    -DAPB1_CLK=$(APB1_CLK) \
+    -DAPB2_CLK=$(APB2_CLK) \
     -I$(DRV) \
-    -Os \
+    -O0 \
     -Wall \
     -Wextra \
     -Wno-parentheses \

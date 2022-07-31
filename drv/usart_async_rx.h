@@ -26,10 +26,10 @@ typedef union
         /* set if no more data is waiting in HW register */
         uint32_t empty : 1;
         uint32_t : 13;
-        uint32_t overrun_error : 1;
-        uint32_t noise_flag : 1;
-        uint32_t frame_error : 1;
         uint32_t parity_error : 1;
+        uint32_t frame_error : 1;
+        uint32_t noise_flag : 1;
+        uint32_t overrun_error : 1;
         uint32_t : 12;
     } bits;
 
