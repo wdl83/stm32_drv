@@ -12,6 +12,10 @@ ifndef DRV
 DRV = stm32_drv
 endif
 
+ifndef DST_DIR
+DST_DIR = dst
+endif
+
 ifndef OBJ_DIR
 OBJ_DIR = obj
 endif

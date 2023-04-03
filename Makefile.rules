@@ -26,5 +26,9 @@ $(OBJ_DIR)/%.o: %.s
 clean:
 	rm $(DST_OBJS) $(DST_TARGET) -f
 
+install: $(DST_TARGET)
+	mkdir -p $(DST_DIR)/bin
+	mv $(DST_TARGET) $(DST_DIR)/bin
+
 flash: $(OBJ_DIR)/$(TARGET).bin
 	st-flash --reset write $(OBJ_DIR)/$(TARGET).bin 0x08000000

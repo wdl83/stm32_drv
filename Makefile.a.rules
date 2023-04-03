@@ -21,3 +21,7 @@ $(OBJ_DIR)/%.o: %.s
 
 clean:
 	rm $(DST_OBJS) $(DST_TARGET) -f
+
+install: $(DST_TARGET)
+	mkdir -p $(DST_DIR)/lib
+	mv $(DST_TARGET) $(DST_DIR)/lib
