@@ -2,7 +2,7 @@ TOOLS_PREFIX=arm-none-eabi-
 
 CC=$(TOOLS_PREFIX)gcc
 AS=$(TOOLS_PREFIX)gcc
-AR=$(TOOLS_PREFIX)gcc
+AR=$(TOOLS_PREFIX)ar
 LD=$(TOOLS_PREFIX)gcc
 OBJCOPY=$(TOOLS_PREFIX)objcopy
 OBJDUMP=$(TOOLS_PREFIX)objdump
@@ -35,13 +35,15 @@ ASMFLAGS = \
     -mcpu=$(CPU) \
     -mthumb
 
+ARFLAGS = \
+	rcs
+
 CFLAGS = \
     -D$(DEVICE) \
     -DCPU_CLK=$(CPU_CLK) \
     -DAPB1_CLK=$(APB1_CLK) \
     -DAPB2_CLK=$(APB2_CLK) \
     -I$(DRV) \
-    -O0 \
     -Wall \
     -Wextra \
     -Wno-parentheses \
@@ -58,6 +60,12 @@ CFLAGS = \
     -mcpu=$(CPU) \
     -mthumb \
     -std=gnu99
+
+ifdef RELEASE
+	CFLAGS += -Os
+else
+	CFLAGS += -O0
+endif
 
 LDFLAGS = \
     -Wl,--cref \

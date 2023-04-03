@@ -13,7 +13,7 @@ $(OBJ_DIR)/%.bin: $(OBJ_DIR)/$(TARGET).elf
 	$(OBJCOPY) -O binary $< $@
 
 $(OBJ_DIR)/%.elf: $(DST_OBJS)
-	$(LD) $(LDFLAGS) -o $@ $^
+	$(LD) $^ $(LDFLAGS) -o $@
 
 $(OBJ_DIR)/%.o: %.c
 	mkdir -p "$(OBJ_DIR)/`dirname $<`"

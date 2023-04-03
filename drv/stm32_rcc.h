@@ -22,7 +22,7 @@
 #define CFGR_HPRE                                                    UINT8_C( 4)
 #define CFGR_PPRE1                                                   UINT8_C( 8)
 #define CFGR_PPRE2                                                   UINT8_C(11)
-#define CFGR_ADC_PRE                                                 UINT8_C(14)
+#define CFGR_ADCPRE                                                  UINT8_C(14)
 #define CFGR_PLLSRC                                                  UINT8_C(16)
 #define CFGR_PLLXTPRE                                                UINT8_C(17)
 #define CFGR_PLLMULL                                                 UINT8_C(18)
@@ -202,4 +202,14 @@
 #define TIM2_CLK_ENABLE()            RCC_APB1ENR |= M1(APB1ENR_TIM2EN)
 #define TIM3_CLK_ENABLE()            RCC_APB1ENR |= M1(APB1ENR_TIM3EN)
 #define TIM4_CLK_ENABLE()            RCC_APB1ENR |= M1(APB1ENR_TIM4EN)
+
+/* ADC input clock, generated from APB2 clock, can not exceed 14MHz */
+#define ADC1_CLK_ENABLE()            RCC_APB2ENR |= M1(APB2ENR_ADC1EN)
+#define ADC2_CLK_ENABLE()            RCC_APB2ENR |= M1(APB2ENR_ADC2EN)
+
+#define ADC_CLK_CLR()                RCC_CFGR &= ~M2R(CFGR_ADCPRE)
+#define ADC_CLK_DIV2()               ADC_CLK_CLR()
+#define ADC_CLK_DIV4()               RCC_CFGR |= (UINT32_C(1) << CFGR_ADCPRE)
+#define ADC_CLK_DIV6()               RCC_CFGR |= (UINT32_C(2) << CFGR_ADCPRE)
+#define ADC_CLK_DIV8()               RCC_CFGR |= (UINT32_C(3) << CFGR_ADCPRE)
 /*----------------------------------------------------------------------------*/

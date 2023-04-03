@@ -16,12 +16,16 @@
 #define NVIC_BASE                                           UINT32_C(0xE000E100)
 #define STK_BASE                                            UINT32_C(0xE000E010)
 
+#define ADC1_BASE                             (APB2_BASE + UINT32_C(0x00002400))
+#define ADC2_BASE                             (APB2_BASE + UINT32_C(0x00002800))
+
 #define FLASH_IF_BASE                          (AHB_BASE + UINT32_C(0x00002000))
 
 #define USART1_BASE                           (APB2_BASE + UINT32_C(0x00003800))
 #define USART2_BASE                           (APB1_BASE + UINT32_C(0x00004400))
 #define USART3_BASE                           (APB1_BASE + UINT32_C(0x00004800))
 
+#define DMA1_BASE                              (AHB_BASE + UINT32_C(0x00000000))
 
 #define RCC_BASE                               (AHB_BASE + UINT32_C(0x00001000))
 
