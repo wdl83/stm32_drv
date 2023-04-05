@@ -24,7 +24,7 @@ $(OBJ_DIR)/%.o: %.s
 	$(AS) $(ASMFLAGS) -o $@ -c $<
 
 clean:
-	rm $(DST_OBJS) $(DST_TARGET) -f
+	rm $(OBJ_DIR)/$(TARGET).map $(DST_OBJS) $(DST_TARGET) -f
 
 install: $(DST_TARGET)
 	mkdir -p $(DST_DIR)/bin
