@@ -165,51 +165,54 @@
 #define CSR_WWDGRSTF                                                 UINT8_C(30)
 #define CSR_LPWRRSTF                                                 UINT8_C(31)
 /*----------------------------------------------------------------------------*/
-#define HSE_ENABLE()                 RCC_CR |= M1(CR_HSEON)
-#define HSE_READY()                 (RCC_CR & M1(CR_HSERDY))
+#define HSE_ENABLE()               RCC_CR |= M1(CR_HSEON)
+#define HSE_READY()               (RCC_CR & M1(CR_HSERDY))
 
-#define PLL_ENABLE()                 RCC_CR |= M1(CR_PLLON)
-#define PLL_READY()                 (RCC_CR & M1(CR_PLLRDY))
-#define PLL_SRC_HSI()                RCC_CFGR &= ~M1(CFGR_PLLSRC)
-#define PLL_SRC_HSE()                RCC_CFGR |= M1(CFGR_PLLSRC)
-#define PLL_MUL_9()                  RCC_CFGR |= UINT32_C(9 - 2) << CFGR_PLLMULL
+#define PLL_ENABLE()               RCC_CR |= M1(CR_PLLON)
+#define PLL_READY()               (RCC_CR & M1(CR_PLLRDY))
+#define PLL_SRC_HSI()              RCC_CFGR &= ~M1(CFGR_PLLSRC)
+#define PLL_SRC_HSE()              RCC_CFGR |= M1(CFGR_PLLSRC)
+#define PLL_MUL_9()                RCC_CFGR |= (UINT32_C(9 - 2) << CFGR_PLLMULL)
 
-#define APB1_CLK_DIV2()              RCC_CFGR |= UINT32_C(0 + 4) << CFGR_PPRE1
-#define APB1_CLK_DIV4()              RCC_CFGR |= UINT32_C(1 + 4) << CFGR_PPRE1
-#define APB1_CLK_DIV8()              RCC_CFGR |= UINT32_C(2 + 4) << CFGR_PPRE1
-#define APB1_CLK_DIV16()             RCC_CFGR |= UINT32_C(3 + 4) << CFGR_PPRE1
+#define APB1_CLK_DIV2()            RCC_CFGR |= UINT32_C(0 + 4) << CFGR_PPRE1
+#define APB1_CLK_DIV4()            RCC_CFGR |= UINT32_C(1 + 4) << CFGR_PPRE1
+#define APB1_CLK_DIV8()            RCC_CFGR |= UINT32_C(2 + 4) << CFGR_PPRE1
+#define APB1_CLK_DIV16()           RCC_CFGR |= UINT32_C(3 + 4) << CFGR_PPRE1
 
-#define SYSCLK_SRC_HSI()             RCC_CFGR &= ~M2R(CFGR_SW)
-#define SYSCLK_SRC_HSE()             RCC_CFGR |= M1(CFGR_SW)
-#define SYSCLK_SRC_PLL()             RCC_CFGR |= M1(CFGR_SW + 1)
+#define SYSCLK_SRC_HSI()           RCC_CFGR &= ~M2R(CFGR_SW)
+#define SYSCLK_SRC_HSE()           RCC_CFGR |= M1(CFGR_SW)
+#define SYSCLK_SRC_PLL()           RCC_CFGR |= M1(CFGR_SW + 1)
 
-#define IS_SYSCLK_SRC_HSI()       (!(RCC_CFGR & M2R(CFGR_SWS)))
-#define IS_SYSCLK_SRC_HSE()         (RCC_CFGR & M1(CFGR_SWS))
-#define IS_SYSCLK_SRC_PLL()         (RCC_CFGR & M1(CFGR_SWS + 1))
+#define IS_SYSCLK_SRC_HSI()     (!(RCC_CFGR & M2R(CFGR_SWS)))
+#define IS_SYSCLK_SRC_HSE()       (RCC_CFGR & M1(CFGR_SWS))
+#define IS_SYSCLK_SRC_PLL()       (RCC_CFGR & M1(CFGR_SWS + 1))
 
-#define USART1_CLK_ENABLE()          RCC_APB2ENR |= M1(APB2ENR_USART1EN)
-#define USART1_CLK_DISABLE()         RCC_APB2ENR &= ~M1(APB2ENR_USART1EN)
+#define USART1_CLK_ENABLE()        RCC_APB2ENR |= M1(APB2ENR_USART1EN)
+#define USART1_CLK_DISABLE()       RCC_APB2ENR &= ~M1(APB2ENR_USART1EN)
 
-#define PORTA_CLK_ENABLE()           RCC_APB2ENR |= M1(APB2ENR_IOPAEN)
-#define PORTB_CLK_ENABLE()           RCC_APB2ENR |= M1(APB2ENR_IOPBEN)
-#define PORTC_CLK_ENABLE()           RCC_APB2ENR |= M1(APB2ENR_IOPCEN)
-#define PORTD_CLK_ENABLE()           RCC_APB2ENR |= M1(APB2ENR_IOPDEN)
-#define PORTE_CLK_ENABLE()           RCC_APB2ENR |= M1(APB2ENR_IOPEEN)
-#define PORTF_CLK_ENABLE()           RCC_APB2ENR |= M1(APB2ENR_IOPFEN)
-#define PORTG_CLK_ENABLE()           RCC_APB2ENR |= M1(APB2ENR_IOPGEN)
+#define PORTA_CLK_ENABLE()         RCC_APB2ENR |= M1(APB2ENR_IOPAEN)
+#define PORTB_CLK_ENABLE()         RCC_APB2ENR |= M1(APB2ENR_IOPBEN)
+#define PORTC_CLK_ENABLE()         RCC_APB2ENR |= M1(APB2ENR_IOPCEN)
+#define PORTD_CLK_ENABLE()         RCC_APB2ENR |= M1(APB2ENR_IOPDEN)
+#define PORTE_CLK_ENABLE()         RCC_APB2ENR |= M1(APB2ENR_IOPEEN)
+#define PORTF_CLK_ENABLE()         RCC_APB2ENR |= M1(APB2ENR_IOPFEN)
+#define PORTG_CLK_ENABLE()         RCC_APB2ENR |= M1(APB2ENR_IOPGEN)
 
-#define TIM1_CLK_ENABLE()            RCC_APB1ENR |= M1(APB2ENR_TIM1EN)
-#define TIM2_CLK_ENABLE()            RCC_APB1ENR |= M1(APB1ENR_TIM2EN)
-#define TIM3_CLK_ENABLE()            RCC_APB1ENR |= M1(APB1ENR_TIM3EN)
-#define TIM4_CLK_ENABLE()            RCC_APB1ENR |= M1(APB1ENR_TIM4EN)
+#define TIM1_CLK_ENABLE()          RCC_APB1ENR |= M1(APB2ENR_TIM1EN)
+#define TIM2_CLK_ENABLE()          RCC_APB1ENR |= M1(APB1ENR_TIM2EN)
+#define TIM3_CLK_ENABLE()          RCC_APB1ENR |= M1(APB1ENR_TIM3EN)
+#define TIM4_CLK_ENABLE()          RCC_APB1ENR |= M1(APB1ENR_TIM4EN)
 
 /* ADC input clock, generated from APB2 clock, can not exceed 14MHz */
-#define ADC1_CLK_ENABLE()            RCC_APB2ENR |= M1(APB2ENR_ADC1EN)
-#define ADC2_CLK_ENABLE()            RCC_APB2ENR |= M1(APB2ENR_ADC2EN)
+#define ADC1_CLK_ENABLE()          RCC_APB2ENR |= M1(APB2ENR_ADC1EN)
+#define ADC2_CLK_ENABLE()          RCC_APB2ENR |= M1(APB2ENR_ADC2EN)
 
-#define ADC_CLK_CLR()                RCC_CFGR &= ~M2R(CFGR_ADCPRE)
-#define ADC_CLK_DIV2()               ADC_CLK_CLR()
-#define ADC_CLK_DIV4()               RCC_CFGR |= (UINT32_C(1) << CFGR_ADCPRE)
-#define ADC_CLK_DIV6()               RCC_CFGR |= (UINT32_C(2) << CFGR_ADCPRE)
-#define ADC_CLK_DIV8()               RCC_CFGR |= (UINT32_C(3) << CFGR_ADCPRE)
+#define ADC_CLK_CLR()              RCC_CFGR &= ~M2R(CFGR_ADCPRE)
+#define ADC_CLK_DIV2()             ADC_CLK_CLR()
+#define ADC_CLK_DIV4()             RCC_CFGR |= (UINT32_C(1) << CFGR_ADCPRE)
+#define ADC_CLK_DIV6()             RCC_CFGR |= (UINT32_C(2) << CFGR_ADCPRE)
+#define ADC_CLK_DIV8()             RCC_CFGR |= (UINT32_C(3) << CFGR_ADCPRE)
+
+#define DMA1_CLK_ENABLE()          RCC_AHBENR |= M1(AHBENR_DMA1EN)
+#define DMA2_CLK_ENABLE()          RCC_AHBENR |= M1(AHBENR_DMA2EN)
 /*----------------------------------------------------------------------------*/

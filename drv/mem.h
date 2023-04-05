@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #define R32(base, offset)            (*(volatile uint32_t *)((base) + (offset)))
+#define R32ADDR(R)                   ((uintptr_t)(&(R)))
 
 #define M1(a)                                     (UINT32_C(1) << (a))
 #define M2(a, b)                                  (M1(a) | M1(b))

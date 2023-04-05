@@ -17,17 +17,17 @@
 /*----------------------------------------------------------------------------*/
 /* interrupt status register */
 #define DMA_ISR(base)                                            R32(base, 0x00)
-#define ISR_GIF(ch)                                  ((ch - 1) * 4 + UINT8_C(0))
-#define ISR_TCIF(ch)                                 ((ch - 1) * 4 + UINT8_C(1))
-#define ISR_HTIF(ch)                                 ((ch - 1) * 4 + UINT8_C(2))
-#define ISR_TEIF(ch)                                 ((ch - 1) * 4 + UINT8_C(3))
+#define ISR_GIF(ch)                                ((uint8_t)((ch - 1) * 4 + 0))
+#define ISR_TCIF(ch)                               ((uint8_t)((ch - 1) * 4 + 1))
+#define ISR_HTIF(ch)                               ((uint8_t)((ch - 1) * 4 + 2))
+#define ISR_TEIF(ch)                               ((uint8_t)((ch - 1) * 4 + 3))
 /*----------------------------------------------------------------------------*/
 /* interrupt flag clear register */
-#define DMA_IFCR(base)                                           R32(base, 0x00)
-#define IFCR_CGIF(ch)                                ((ch - 1) * 4 + UINT8_C(0))
-#define IFCR_CTCIF(ch)                               ((ch - 1) * 4 + UINT8_C(1))
-#define IFCR_CHTIF(ch)                               ((ch - 1) * 4 + UINT8_C(2))
-#define IFCR_CTEIF(ch)                               ((ch - 1) * 4 + UINT8_C(3))
+#define DMA_IFCR(base)                                           R32(base, 0x04)
+#define IFCR_CGIF(ch)                              ((uint8_t)((ch - 1) * 4 + 0))
+#define IFCR_CTCIF(ch)                             ((uint8_t)((ch - 1) * 4 + 1))
+#define IFCR_CHTIF(ch)                             ((uint8_t)((ch - 1) * 4 + 2))
+#define IFCR_CTEIF(ch)                             ((uint8_t)((ch - 1) * 4 + 3))
 /*----------------------------------------------------------------------------*/
 /* channel configuration register */
 #define DMA_CCR(base, ch)                      R32(base, 0x14 * (ch - 1) + 0x08)
@@ -47,20 +47,21 @@
 typedef union
 {
     struct {
-        uint32_t EN : 1;
-        uint32_t TCIE : 1;
-        uint32_t HTIE : 1;
-        uint32_t TEIE : 1;
-        uint32_t DIR : 1;
-        uint32_t CIRC : 1;
-        uint32_t PINC : 1;
-        uint32_t MINC : 1;
-        uint32_t PSIZE : 2;
-        uint32_t MSIZE : 2;
-        uint32_t PL : 2;
-        uint32_t MEM2MEM : 1;
-    };
-    uint32_t raw;
+        uint32_t EN : 1; // channel enable
+        uint32_t TCIE : 1; // transfer complete interrupt enable
+        uint32_t HTIE : 1; //  half transfer interrupt enable
+        uint32_t TEIE : 1; // transfer error interrupt enable
+        uint32_t DIR : 1; // transfer direction (0: read periph, 1: read memory)
+        uint32_t CIRC : 1; // circular mode
+        uint32_t PINC : 1; // peripheral increment mode
+        uint32_t MINC : 1; // memory increment mode
+        uint32_t PSIZE : 2; // peripheral size (0: 8bit, 1: 16bit, 2: 32bit)
+        uint32_t MSIZE : 2; // memory size (0: 8bit, 1: 16bit, 2: 32bit)
+        uint32_t PL : 2; // channel priority level
+        uint32_t MEM2MEM : 1; // memory to memory mode
+        uint32_t : 17;
+    } bits;
+    uint32_t u32;
 } DMA_CCR_t;
 /*----------------------------------------------------------------------------*/
 /* number of data to transfer [0:65535] lower 16bits */
@@ -82,31 +83,33 @@ typedef union
 
 /* can only be set when channel is disabled */
 #define DMA_TRANSFER_NUM(base, ch, n)                  DMA_CNDTR(base, ch) = (n)
-#define DMA_PADDR(base, ch, addr)                    DMA_CPAR(base, ch) = (addr)
-#define DMA_MADDR(base, ch, addr)                    DMA_CMAR(base, ch) = (addr)
+#define DMA_PADDR(base, ch, addr)         DMA_CPAR(base, ch) = (uintptr_t)(addr)
+#define DMA_MADDR(base, ch, addr)         DMA_CMAR(base, ch) = (uintptr_t)(addr)
 
-#define DMA_ENABLE(base, ch)                  DMA_CCR(base, ch) |= M1(CCR_EN)
-#define DMA_DISABLE(base, ch)                 DMA_CCR(base, ch) &= ~M1(CCR_EN)
+#define DMA_ENABLE(base, ch)                DMA_CCR(base, ch) |= M1(CCR_EN)
+#define DMA_DISABLE(base, ch)               DMA_CCR(base, ch) &= ~M1(CCR_EN)
 
-#define DMA_COMPLETE_INT_ENABLE(base, ch)     DMA_CCR(base, ch) |= M1(CCR_TCIE)
-#define DMA_COMPLETE_INT_DISABLE(base, ch)    DMA_CCR(base, ch) &= ~M1(CCR_TCIE)
-#define DMA_COMPLETE_INT_ENABLED(base, ch)   (DMA_CCR(base, ch) & M1(CCR_TCIE))
+#define DMA_COMPLETE_INT_ENABLE(base, ch)   DMA_CCR(base, ch) |= M1(CCR_TCIE)
+#define DMA_COMPLETE_INT_DISABLE(base, ch)  DMA_CCR(base, ch) &= ~M1(CCR_TCIE)
+#define DMA_COMPLETE_INT_ENABLED(base, ch) (DMA_CCR(base, ch) & M1(CCR_TCIE))
+#define DMA_COMPLETE_INT_CLEAR(base, ch)    DMA_IFCR(base) |= M1(IFCR_CTCIF(ch))
 
-#define DMA_ERROR_INT_ENABLE(base, ch)        DMA_CCR(base, ch) |= M1(CCR_TEIE)
-#define DMA_ERROR_INT_DISABLE(base, ch)       DMA_CCR(base, ch) &= ~M1(CCR_TEIE)
-#define DMA_ERROR_INT_ENABLED(base, ch)      (DMA_CCR(base, ch) & M1(CCR_TEIE))
+#define DMA_ERROR_INT_ENABLE(base, ch)      DMA_CCR(base, ch) |= M1(CCR_TEIE)
+#define DMA_ERROR_INT_DISABLE(base, ch)     DMA_CCR(base, ch) &= ~M1(CCR_TEIE)
+#define DMA_ERROR_INT_ENABLED(base, ch)    (DMA_CCR(base, ch) & M1(CCR_TEIE))
+#define DMA_ERROR_INT_CLEAR(base, ch)       DMA_IFCR(base) |= M1(IFCR_CTEIF(ch))
 
-#define DMA_FROM_MEMORY(base, ch)             DMA_CCR(base, ch) |= M1(CCR_DIR)
-#define DMA_FROM_PERIPHERAL(base, ch)         DMA_CCR(base, ch) &= ~M1(CCR_DIR)
+#define DMA_FROM_MEMORY(base, ch)           DMA_CCR(base, ch) |= M1(CCR_DIR)
+#define DMA_FROM_PERIPHERAL(base, ch)       DMA_CCR(base, ch) &= ~M1(CCR_DIR)
 
-#define DMA_CIRCULAR_ENABLE(base, ch)         DMA_CCR(base, ch) |= M1(CCR_CIRC)
-#define DMA_CIRCULAR_DISABLE(base, ch)        DMA_CCR(base, ch) &= ~M1(CCR_CIRC)
+#define DMA_CIRCULAR_ENABLE(base, ch)       DMA_CCR(base, ch) |= M1(CCR_CIRC)
+#define DMA_CIRCULAR_DISABLE(base, ch)      DMA_CCR(base, ch) &= ~M1(CCR_CIRC)
 
-#define DMA_PADDR_INC_ENABLE(base, ch)        DMA_CCR(base, ch) |= M1(CCR_PINC)
-#define DMA_PADDR_INC_DISABLE(base, ch)       DMA_CCR(base, ch) &= ~M1(CCR_PINC)
+#define DMA_PADDR_INC_ENABLE(base, ch)      DMA_CCR(base, ch) |= M1(CCR_PINC)
+#define DMA_PADDR_INC_DISABLE(base, ch)     DMA_CCR(base, ch) &= ~M1(CCR_PINC)
 
-#define DMA_MADDR_INC_ENABLE(base, ch)        DMA_CCR(base, ch) |= M1(CCR_MINC)
-#define DMA_MADDR_INC_DISABLE(base, ch)       DMA_CCR(base, ch) &= ~M1(CCR_MINC)
+#define DMA_MADDR_INC_ENABLE(base, ch)      DMA_CCR(base, ch) |= M1(CCR_MINC)
+#define DMA_MADDR_INC_DISABLE(base, ch)     DMA_CCR(base, ch) &= ~M1(CCR_MINC)
 
 #define DMA_PSIZE(base, ch, size)      SET2R(DMA_CCR(base, ch), CCR_PSIZE, size)
 #define DMA_MSIZE(base, ch, size)      SET2R(DMA_CCR(base, ch), CCR_MSIZE, size)

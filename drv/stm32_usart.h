@@ -84,6 +84,7 @@
 
 #define USART_TX_READY(base)                      (USART_SR(base) & M1(SR_TXE))
 #define USART_TX_COMPLETE(base)                   (USART_SR(base) & M1(SR_TC))
+#define USART_TX_COMPLETE_CLEAR(base)              USART_SR(base) &= ~M1(SR_TC)
 
 #define USART_RX_READY(base)                      (USART_SR(base) & M1(SR_RXNE))
 
@@ -117,3 +118,9 @@
 #define USART_NOISE_FLAG(base)                     (USART_SR(base) & M1(SR_NF))
 
 #define USART_FOPN_ERR(base)  (USART_SR(base) & M4(SR_ORE, SR_NE, SR_FE, SR_PE))
+
+#define USART_TX_DMA_ENABLE(base)               USART_CR3(base) |= M1(CR3_DMAT)
+#define USART_TX_DMA_DISABLE(base)              USART_CR3(base) &= ~M1(CR3_DMAT)
+
+#define USART_RX_DMA_ENABLE(base)               USART_CR3(base) |= M1(CR3_DMAR)
+#define USART_RX_DMA_DISABLE(base)              USART_CR3(base) &= ~M1(CR3_DMAR)
